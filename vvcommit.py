@@ -278,10 +278,16 @@ def branch_end(name: str, delete: bool = False, remote: bool = False)-> None:
 
 # find github login + repo name from: git remote -v
 def find_base(url: str) -> str:
-    if url.startswith("http"):
-        return "/".join(url.split("/")[-2:])
+    url = url.strip()
+    
+    if url.startswith("https://github.com/"):
+        base = url[len("https://github.com/"):]
+    elif url.startswith("git@github.com:"):
+        base = url[len("git@github.com:"):]
     else:
-        return url.split(":")[1]
+        raise ValueError(f"Unknown GitHub URL format: {url}")
+
+    return base
 
 # helper function for switch_methods
 def switch(url: str, method: AuthMethodType):

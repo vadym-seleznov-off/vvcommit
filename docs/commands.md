@@ -10,6 +10,15 @@ vvcommit help
 
 for getting basic help in terminal
 
+
+## SWITCH 
+
+```bash
+vvcommit switch 
+```
+
+this command switches git auth method from HTTPS->SSH and reverse
+
 ## INITIALIZATION
 
 1. With this tool you can init your github repo with one line. Just go into github page and click at "new repo". Then give it a name, description and visibility flag.

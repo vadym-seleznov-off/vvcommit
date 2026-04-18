@@ -61,6 +61,7 @@ def help() -> None:
     print(f"{GREY}--------------------VV HELP----------{RESET}")
     print(f"{RED}Request options:{RESET}")
     print(f"{GREEN}curr - git commit and push into current branch{RESET}")
+    print(f"{GREEN}switch - switches current git auth method HTTPS->SSH and SSH->HTTPS{RESET}")
     print(f"{GREEN}comm - git commit into current branch without pushing{RESET}")
     print(f"{GREEN}cbranch - git commit and push into specific branch{RESET}")
     print(f"{GREEN}pull - git pull or git pull origin \"branch-name\" if you provide an argument (python ./vvcommit.py pull (optional branch name)){RESET}")

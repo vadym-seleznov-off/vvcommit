@@ -5,6 +5,7 @@ import sys
 import os
 import shutil
 import urllib.request
+from enum import Enum
 
 # CONSTANTS WITH CONSOLE COLORS
 RED = "\033[31m"
@@ -20,6 +21,9 @@ BRANCH_TYPES = {
         "b": "bugfix",
         }
 
+class AuthMethodType(Enum):
+    HTTPS = 1
+    SSH = 2
 
 # UPDATE FUNCTION
 # With this function you can get newest version of script from github with only 1 command
@@ -272,6 +276,39 @@ def branch_end(name: str, delete: bool = False, remote: bool = False)-> None:
 
     sys.exit(0)
 
+# find github login + repo name from: git remote -v
+def find_base(input: str) -> str:
+    url = input.split()[1]
+    
+    if url.startswith("http"):
+        return "/".join(url.split("/")[-2:])
+    else:
+        return url.split(":")[1]
+
+# helper function for switch_methods
+def switch(input: str, method: AuthMethodType):
+    BASE = find_base(input)
+    full = "git@github.com:" if method == AuthMethodType.HTTPS else "https://github.com/"
+    full += BASE
+    subprocess.run(["git", "remote", "set-url", "origin", full])
+
+# FUNCTION THAT SWITCHES AUTH METHODS: SSH->HTTPS and reversed
+def switch_methods() -> None:
+    print(f'{GREY}Detecting current method..{RESET}')
+    result = subprocess.run(["git", "remote", "-v"], capture_output=True, text=True); result = result.stdout
+    # 7 because git remote -v returns: origin X -> X is our target
+    if result[7] == 'h':
+        print(f'{GREEN}METHOD IS: HTTPS{RESET}')
+        switch(result, AuthMethodType.HTTPS)
+        print(f"{GREEN}SUCCESS! Now auth method is: SSH{RESET}")
+    elif result[7] == 'g':
+        print(f'{GREEN}METHOD IS: SSH{RESET}')
+        switch(result, AuthMethodType.SSH)
+        print(f"{GREEN}SUCCESS! Now auth method is: HTTPS{RESET}")
+    else:
+        print(f'{RED}ERROR: Unrecognized method for: {result}{RESET}')
+
+    sys.exit(0)
 
 # MAIN FUNCTION
 def main() -> None:
@@ -281,6 +318,9 @@ def main() -> None:
         usage("request")
 
     request = sys.argv[1]
+
+    if request == "switch":
+        switch_methods()
 
     if request == "com":
         if len(sys.argv) != 3:

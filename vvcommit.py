@@ -277,36 +277,47 @@ def branch_end(name: str, delete: bool = False, remote: bool = False)-> None:
     sys.exit(0)
 
 # find github login + repo name from: git remote -v
-def find_base(input: str) -> str:
-    url = input.split()[1]
-    
+def find_base(url: str) -> str:
     if url.startswith("http"):
         return "/".join(url.split("/")[-2:])
     else:
         return url.split(":")[1]
 
 # helper function for switch_methods
-def switch(input: str, method: AuthMethodType):
-    BASE = find_base(input)
-    full = "git@github.com:" if method == AuthMethodType.HTTPS else "https://github.com/"
-    full += BASE
+def switch(url: str, method: AuthMethodType):
+    BASE = find_base(url)
+
+    if method == AuthMethodType.HTTPS:
+        full = f"git@github.com:{BASE}"
+    else:
+        full = f"https://github.com/{BASE}"
+
     subprocess.run(["git", "remote", "set-url", "origin", full])
 
 # FUNCTION THAT SWITCHES AUTH METHODS: SSH->HTTPS and reversed
 def switch_methods() -> None:
     print(f'{GREY}Detecting current method..{RESET}')
-    result = subprocess.run(["git", "remote", "-v"], capture_output=True, text=True); result = result.stdout
-    # 7 because git remote -v returns: origin X -> X is our target
-    if result[7] == 'h':
+    
+    result = subprocess.run(
+        ["git", "remote", "get-url", "origin"],
+        capture_output=True,
+        text=True
+    )
+    
+    url = result.stdout.strip()
+
+    if url.startswith("https"):
         print(f'{GREEN}METHOD IS: HTTPS{RESET}')
-        switch(result, AuthMethodType.HTTPS)
+        switch(url, AuthMethodType.HTTPS)
         print(f"{GREEN}SUCCESS! Now auth method is: SSH{RESET}")
-    elif result[7] == 'g':
+        
+    elif url.startswith("git@"):
         print(f'{GREEN}METHOD IS: SSH{RESET}')
-        switch(result, AuthMethodType.SSH)
+        switch(url, AuthMethodType.SSH)
         print(f"{GREEN}SUCCESS! Now auth method is: HTTPS{RESET}")
+        
     else:
-        print(f'{RED}ERROR: Unrecognized method for: {result}{RESET}')
+        print(f'{RED}ERROR: Unrecognized method for: {url}{RESET}')
 
     sys.exit(0)
 

@@ -25,6 +25,7 @@ class AuthMethodType(Enum):
     HTTPS = 1
     SSH = 2
 
+# ----- IMPLEMENTATIONS ------
 # UPDATE FUNCTION
 # With this function you can get newest version of script from github with only 1 command
 # also it has --no-backup flag if you dont want to save backup with older version
@@ -328,130 +329,121 @@ def switch_methods() -> None:
 
     sys.exit(0)
 
+
+# ---- HANDLERS -----
+def handle_switch():
+    switch_methods()
+
+def handle_com():
+    if len(sys.argv) != 3:
+        usage("com commit-message")
+    commit(sys.argv[2])
+
+def handle_curr():
+    if len(sys.argv) < 3:
+        usage("curr commit-message")
+    commit_curr(sys.argv[2])
+
+def handle_cbranch():
+    if len(sys.argv) < 4:
+        usage("cbranch branch-name commit-message")
+    commit_branch(sys.argv[2], sys.argv[3])
+
+def handle_pull():
+    if len(sys.argv) >= 3:
+        pull(sys.argv[2])
+    else:
+        pull()
+
+def handle_init():
+    if len(sys.argv) != 4:
+        usage("init github-login repo-name")
+    init(sys.argv[2], sys.argv[3])
+
+def handle_push_ex():
+    if len(sys.argv) != 4:
+        usage("push-ex github-login repo-name")
+    push_ex(sys.argv[2], sys.argv[3])
+
+def handle_ignore():
+    if len(sys.argv) == 3:
+        ignore(sys.argv[2])
+    elif len(sys.argv) == 4:
+        if sys.argv[3] == "--restore":
+            restore_ignore(sys.argv[2])
+        else:
+            help()
+    else:
+        print(f'Wrong command: {sys.argv}')
+        help()
+
+def handle_update():
+    if len(sys.argv) >= 3:
+        if sys.argv[2] == "--no-backup":
+            update("no-backup")
+        else:
+            print(f'There is no such flag: {sys.argv[2]}')
+            help()
+    update("with-backup")
+
+def handle_branch_create():
+    if len(sys.argv) < 4:
+        usage("branch-create (f, b, h or c) name")
+    if sys.argv[2] == "c":
+        if len(sys.argv) != 5:
+            usage("branch-create c option-name branch-name")
+        branch_create(sys.argv[4], "c", sys.argv[3])
+    else:
+        branch_create(sys.argv[3], sys.argv[2])
+
+def handle_branch_end():
+    if len(sys.argv) < 3:
+        usage("branch-end (delete optional) (remote optional) name (without prefix)")
+    if "delete" in sys.argv and "remote" in sys.argv:
+        if len(sys.argv) != 5:
+            usage("branch-end delete remote name (without prefix)")
+        branch_end(sys.argv[4], True, True)
+    elif "delete" in sys.argv:
+        if len(sys.argv) != 4:
+            usage("branch-end delete name (without prefix)")
+        branch_end(sys.argv[3], True, False)
+    else:
+        if len(sys.argv) != 3:
+            usage("branch-end name (without prefix)")
+        branch_end(sys.argv[2], False, False)
+
+
+# REQUESTS MAP
+REQUESTS = {
+    "switch":        handle_switch,
+    "com":           handle_com,
+    "curr":          handle_curr,
+    "cbranch":       handle_cbranch,
+    "pull":          handle_pull,
+    "init":          handle_init,
+    "push-ex":       handle_push_ex,
+    "ignore":        handle_ignore,
+    "update":        handle_update,
+    "branch-create": handle_branch_create,
+    "branch-end":    handle_branch_end,
+    "help":          help,
+}
+
 # MAIN FUNCTION
 def main() -> None:
     print(f"{GREEN}Welcome from vvcommit!{RESET}")
-    
+
     if len(sys.argv) < 2:
         usage("request")
 
     request = sys.argv[1]
 
-    if request == "switch":
-        switch_methods()
-
-    if request == "com":
-        if len(sys.argv) != 3:
-            usage("com commit-message")
-        commit_message = sys.argv[2]
-        commit(commit_message)
-
-    if request == "branch-end":
-        if len(sys.argv) < 3:
-            usage("branch-end (delete optional) (remote optional) name (without prefix)")
-
-        if "delete" in sys.argv and "remote" in sys.argv:
-            if len(sys.argv) != 5:
-                usage("branch-end delete remote name (without prefix)")
-
-            name = sys.argv[4]
-            branch_end(name, True, True)
-        elif "delete" in sys.argv:
-            if len(sys.argv) != 4:
-                usage("branch-end delete name (without prefix)")
-
-            name = sys.argv[3]
-            branch_end(name, True, False)
-        else:
-            if len(sys.argv) != 3:
-                usage("branch-end name (without prefix)")
-
-            name = sys.argv[2]
-            branch_end(name, False, False)
-
-    if request == "branch-create":
-        if len(sys.argv) < 4:
-            usage("branch-create (f, b, h or c) name")
-
-        if sys.argv[2] == "c":
-            if len(sys.argv) != 5:
-                usage("branch-create c option-name branch-name")
-
-            user_option = sys.argv[3]
-            branch_name = sys.argv[4]
-            branch_create(branch_name, "c", user_option)
-        else:
-            branch_option = sys.argv[2]
-            branch_name = sys.argv[3]
-            branch_create(branch_name, branch_option)
-
-    if request == "init":
-        if len(sys.argv) != 4:
-            usage("init github-login repo-name")
-
-        user_login = sys.argv[2]
-        repo = sys.argv[3]
-        init(user_login, repo)
-
-    if request == "push-ex":
-        if len(sys.argv) != 4:
-            usage("push-ex github-login repo-name")
-
-        user_login = sys.argv[2]
-        repo = sys.argv[3]
-        push_ex(user_login, repo)
-
-    if request == "ignore":
-        if len(sys.argv) == 3:
-            elements = sys.argv[2]
-            ignore(elements)
-        elif len(sys.argv) == 4:
-            elements = sys.argv[2]
-            if sys.argv[3] == "--restore":
-                restore_ignore(elements)
-            else:
-                help()
-        else:
-            print(f'Wrong command: {sys.argv}')
-            help()
-
-    if request == "help":
+    handler = REQUESTS.get(request)
+    if handler:
+        handler()
+    else:
+        print(f"{RED}ERROR:{RESET} no such request!")
         help()
-
-    if request == "update":
-        if len(sys.argv) >= 3:
-            if sys.argv[2] == "--no-backup":
-                update("no-backup")
-            else:
-                print(f'There is no such flag: {sys.argv[2]}')
-                help()
-
-        update("with-backup")
-    if request == "pull":
-        pull()
-        
-    if request == "cbranch":
-        if len(sys.argv) < 4:
-            usage("cbranch branch-name commit-message")
-        
-        branch = sys.argv[2]
-        commit_message = sys.argv[3]
-        commit_branch(branch, commit_message)
-
-    if len(sys.argv) < 3: usage("request commit-message")
-
-    commit_message = sys.argv[2]
-
-    if request == "pull":
-        branch = sys.argv[2]
-        pull(branch)
-    
-    if request == "curr":
-        commit_curr(commit_message)
-
-    print(f"{RED}ERROR:{RESET} no such request!")
-    help()
 
 if __name__ == "__main__":
     main()
-

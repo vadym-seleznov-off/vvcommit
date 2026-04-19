@@ -279,6 +279,7 @@ def branch_end(name: str, delete: bool = False, remote: bool = False)-> None:
     sys.exit(0)
 
 # find github login + repo name from: git remote -v
+# Your_Name/awesome_repo.git
 def find_base(url: str) -> str:
     url = url.strip()
     

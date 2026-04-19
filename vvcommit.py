@@ -332,9 +332,6 @@ def switch_methods() -> None:
 
 
 # ---- HANDLERS -----
-def handle_switch():
-    switch_methods()
-
 def handle_com():
     if len(sys.argv) != 3:
         usage("com commit-message")
@@ -416,7 +413,7 @@ def handle_branch_end():
 
 # REQUESTS MAP
 REQUESTS = {
-    "switch":        handle_switch,
+    "switch":        switch_methods,
     "com":           handle_com,
     "curr":          handle_curr,
     "cbranch":       handle_cbranch,

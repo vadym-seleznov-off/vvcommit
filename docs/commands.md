@@ -32,9 +32,7 @@ so u can use just
 ```bash
 vvcommit init <repo-name>
 ```
-and it will automatically choose a auth-method and paste ur github-login in
 Of course you can also push stuff into existing repo:
-
 ```bash
 vvcommit push-ex <github-login> <repo-name>
 ```

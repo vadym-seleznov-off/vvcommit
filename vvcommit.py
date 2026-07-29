@@ -31,7 +31,7 @@ class AuthMethodType(Enum):
 # With this function you can get newest version of script from github with only 1 command
 # also it has --no-backup flag if you dont want to save backup with older version
 def update(flag: str) -> None:
-    url = "https://raw.githubusercontent.com/Vadim-Seleznov/vvcommit/main/vvcommit.py"
+    url = "https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/vvcommit.py"
     script_path = os.path.realpath(sys.argv[0])
     backup_path = script_path + ".bak"
 

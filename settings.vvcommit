@@ -1,5 +1,5 @@
-login: 
-method: 
+login: vadym-seleznov-off
+method: SSH
 # THIS FILE IS GENERETED AUTOMATICALLY DO NOT CHANGE IT URSELF!
 #COMMAND TO CHANGE SETTINGS PROPERLY: vvcommit settings <login> <s/h> (stands for SSH or HTTPS)
 #TO RESTORE SETTINGS TO AN EMPTY STATE USE: vvcommit settings-remove

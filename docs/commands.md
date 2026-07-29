@@ -15,10 +15,10 @@ vvcommit switch
 ```
 
 this command switches git auth method from HTTPS->SSH and reverse
-(AND ALSO CHANGE AUTH_METHOD IN UR SETTINGS FILE)
+(AND ALSO CHANGES AUTH_METHOD IN UR SETTINGS FILE AUTOMATICALLY)
 
 ## INITIALIZATION
-# UPDATED IN A LATEST VERSION!!!
+UPDATED IN A LATEST VERSION!!!
 
 1. With this tool you can init your github repo with one line. Just go into github page and click at "new repo". Then give it a name, description and visibility flag.
    Now you can just do:
@@ -30,20 +30,19 @@ and here github login is OPTIONAL if u have settings in ur setting.vvcommit file
 so u can use just
 
 ```bash
-vvcommit init github-login repo-name
+vvcommit init <github-login> <repo-name>
 ```
 and it will automatically choose a auth-method and paste ur github-login in
-
-. Of course you can also push stuff into existing repo and here login is also OPTIONAL!:
+Of course you can also push stuff into existing repo:
 
 ```bash
-vvcommit push-ex Vadym-Seleznov shop
+vvcommit push-ex <github-login> <repo-name>
 ```
 
 or
 
 ```bash
-vvcommit push-ex shop
+vvcommit push-ex <repo-name>
 ```
 
 ## COMMIT
@@ -54,14 +53,6 @@ vvcommit push-ex shop
 vvcommit com "commit message"
 ```
 
-or without alias, BUT BETTER HAVE AN ALLIAS!
-
-```bash
-python ./vvcommit.py com "commit message"
-```
-
-(if you don't have an alias just write "python" every time at the start of every command)
-
 2. Commit and push into current branch:
 
 ```bash
@@ -70,7 +61,7 @@ vvcommit curr "commit message"
 
 3. Commit and push to a specific branch:
 
-cbranch == commit branch, not copy branch!
+### cbranch == commit branch, not copy branch!
 
 ```bash
 vvcommit cbranch branch-name "commit message"
@@ -169,3 +160,5 @@ vvcommit ignore "firstfile.py secondfile.c dir/" --restore
 ```
 
 this command will remove this files from .gitignore and bring them back into github repo
+
+# FOR NOW WORKING WITH BRANCHES IS NOT RECOMMENDED

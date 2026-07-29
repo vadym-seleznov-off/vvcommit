@@ -26,8 +26,8 @@ git clone https://github.com/vadym-seleznov-off/vvcommit.git
 
 # CURRENT
 VERSION OF PROGRAM IS 1.0 and the latest and most stable version is on a main branch
-but still this tool is written only by me and it was not tested on large project so only u are
-responsible of using it. Please remember this.
+but still this tool is written only by me and it was not tested on any projects apart of my own ones 
+so only u are responsible of using it. Please remember this.
 
 ## TODO
 1. Functionality to work with branches - BASIC IMPLEMENTATION

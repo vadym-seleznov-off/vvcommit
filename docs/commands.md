@@ -26,7 +26,7 @@ UPDATED IN A LATEST VERSION!!!
 ```bash
 vvcommit init <github-login> <repo-name>
 ```
-and here github login is OPTIONAL if u have settings in ur setting.vvcommit file
+and here github login is OPTIONAL if u have settings in ur settings.vvcommit file
 so u can use just
 
 ```bash

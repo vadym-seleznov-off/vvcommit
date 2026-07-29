@@ -25,11 +25,9 @@ git clone https://github.com/vadym-seleznov-off/vvcommit.git
 ```
 
 # CURRENT
-VERSION OF PROGRAM IS 0.1 and the latest and most stable version is on a main branch
+VERSION OF PROGRAM IS 1.0 and the latest and most stable version is on a main branch
 but still this tool is written only by me and it was not tested on large project so only u are
 responsible of using it. Please remember this.
-
-Simple console tool written fully in python. That's kind of thing that makes daily workflow faster.
 
 ## TODO
 1. Functionality to work with branches - BASIC IMPLEMENTATION

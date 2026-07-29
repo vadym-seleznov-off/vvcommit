@@ -24,13 +24,13 @@ UPDATED IN A LATEST VERSION!!!
    Now you can just do:
 
 ```bash
-vvcommit init github-login repo-name
+vvcommit init <github-login> <repo-name>
 ```
 and here github login is OPTIONAL if u have settings in ur setting.vvcommit file
 so u can use just
 
 ```bash
-vvcommit init <github-login> <repo-name>
+vvcommit init <repo-name>
 ```
 and it will automatically choose a auth-method and paste ur github-login in
 Of course you can also push stuff into existing repo:

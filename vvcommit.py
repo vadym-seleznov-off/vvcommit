@@ -314,10 +314,8 @@ def detect_method():
     method = AuthMethodType.SSH
     
     if url.startswith("https"):
-        print(f'{GREEN}METHOD IS: HTTPS{RESET}')
         method = AuthMethodType.HTTPS
     elif url.startswith("git@"):
-        print(f'{GREEN}METHOD IS: SSH{RESET}')
         method = AuthMethodType.SSH
     else:
         print(f'{RED}ERROR: Unrecognized method for: {url}{RESET}')
@@ -343,11 +341,13 @@ def switch_methods() -> None:
     if url.startswith("https"):
         print(f'{GREEN}METHOD IS: HTTPS{RESET}')
         switch(url, method)
+        set_settings(USER_LOGIN, "h")
         print(f"{GREEN}SUCCESS! Now auth method is: SSH{RESET}")
         
     elif url.startswith("git@"):
         print(f'{GREEN}METHOD IS: SSH{RESET}')
         switch(url, method)
+        set_settings(USER_LOGIN, "s")
         print(f"{GREEN}SUCCESS! Now auth method is: HTTPS{RESET}")
         
     else:

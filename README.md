@@ -1,13 +1,13 @@
 ![Python](https://img.shields.io/badge/python-3-blue.svg)
 
-# vvcommit 🚀
+# vvcommit 
 `vvcommit` is a lightweight CLI utility that simplifies everyday Git workflows:
 commits, branching, pushing, pulling, and repository setup — all with short commands.
 Designed for **fast local development** without memorizing long Git commands.
 
 ---
 
-## ✨ Features
+## Features
 - One-command commit & push
 - Fast branch creation with prefixes (`feature/`, `bugfix/`, etc.)
 - Safe branch merge & cleanup
@@ -18,7 +18,7 @@ Designed for **fast local development** without memorizing long Git commands.
 
 ---
 
-## 📦 Installation
+## Installation
 Clone the repository:
 ```bash
 git clone https://github.com/Vadim-Seleznov/vvcommit.git

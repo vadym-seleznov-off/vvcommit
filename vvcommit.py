@@ -25,6 +25,8 @@ class AuthMethodType(Enum):
     HTTPS = 1
     SSH = 2
 
+AUTH_METHOD = AuthMethodType.SSH
+
 # ----- IMPLEMENTATIONS ------
 # UPDATE FUNCTION
 # With this function you can get newest version of script from github with only 1 command
@@ -144,14 +146,20 @@ def init(login: str, repo: str) -> None:
         print(f"{RED}Commit failed!{RESET}")
         sys.exit(1)
     subprocess.run(["git", "branch", "-M", "main"])
-    subprocess.run(["git", "remote", "add", "origin", f'https://github.com/{login}/{repo}.git'])
+    if AUTH_METHOD == AuthMethodType.HTTPS: 
+        subprocess.run(["git", "remote", "add", "origin", f'https://github.com/{login}/{repo}.git'])
+    else:
+        subprocess.run(["git", "remote", "add", "origin", f'git@github.com:{login}/{repo}.git'])
     subprocess.run(["git", "push", "-u", "origin", "main"])
 
     sys.exit(0)
 
 # PUSH STUFF INTO EXISTING GITHUB REPO (also using username and repo-name)
 def push_ex(login: str, repo: str) -> None:
-    subprocess.run(["git", "remote", "add", "origin", f'https://github.com/{login}/{repo}.git'])
+    if AUTH_METHOD == AuthMethodType.HTTPS:
+        subprocess.run(["git", "remote", "add", "origin", f'https://github.com/{login}/{repo}.git'])
+    else:
+        subprocess.run(["git", "remote", "add", "origin", f'git@github.com:{login}/{repo}.git'])
     subprocess.run(["git", "branch", "-M", "main"])
     subprocess.run(["git", "push", "-u", "origin", "main"])
 
@@ -292,6 +300,31 @@ def find_base(url: str) -> str:
 
     return base
 
+#function to detect current method HTTPS/SSH
+def detect_method():
+    print(f'{GREY}Detecting current method..{RESET}')
+    
+    result = subprocess.run(
+        ["git", "remote", "get-url", "origin"],
+        capture_output=True,
+        text=True
+    )
+
+    url = result.stdout.strip()
+    method = AuthMethodType.SSH
+    
+    if url.startswith("https"):
+        print(f'{GREEN}METHOD IS: HTTPS{RESET}')
+        method = AuthMethodType.HTTPS
+    elif url.startswith("git@"):
+        print(f'{GREEN}METHOD IS: SSH{RESET}')
+        method = AuthMethodType.SSH
+    else:
+        print(f'{RED}ERROR: Unrecognized method for: {url}{RESET}')
+
+    return (url, method)
+
+
 # helper function for switch_methods
 def switch(url: str, method: AuthMethodType):
     BASE = find_base(url)
@@ -305,24 +338,16 @@ def switch(url: str, method: AuthMethodType):
 
 # FUNCTION THAT SWITCHES AUTH METHODS: SSH->HTTPS and reversed
 def switch_methods() -> None:
-    print(f'{GREY}Detecting current method..{RESET}')
-    
-    result = subprocess.run(
-        ["git", "remote", "get-url", "origin"],
-        capture_output=True,
-        text=True
-    )
-    
-    url = result.stdout.strip()
+    (url, method) = detect_method()
 
     if url.startswith("https"):
         print(f'{GREEN}METHOD IS: HTTPS{RESET}')
-        switch(url, AuthMethodType.HTTPS)
+        switch(url, method)
         print(f"{GREEN}SUCCESS! Now auth method is: SSH{RESET}")
         
     elif url.startswith("git@"):
         print(f'{GREEN}METHOD IS: SSH{RESET}')
-        switch(url, AuthMethodType.SSH)
+        switch(url, method)
         print(f"{GREEN}SUCCESS! Now auth method is: HTTPS{RESET}")
         
     else:
@@ -430,6 +455,7 @@ REQUESTS = {
 # MAIN FUNCTION
 def main() -> None:
     print(f"{GREEN}Welcome from vvcommit!{RESET}")
+    (url, method) = detect_method(); AUTH_METHOD = method
 
     if len(sys.argv) < 2:
         usage("request")

@@ -1,25 +1,24 @@
 # COMMANDS
 
-THIS FILE DESCRIBES AVAIBLE COMMANDS IN VVCOMMIT
+THIS FILE DESCRIBES AVAILABLE COMMANDS IN VVCOMMIT
 
 ## HELP
-
+USE:
 ```bash
 vvcommit help
 ```
-
-for getting basic help in terminal
-
+to look at the all requests that are available now
 
 ## SWITCH 
-
 ```bash
 vvcommit switch 
 ```
 
 this command switches git auth method from HTTPS->SSH and reverse
+(AND ALSO CHANGE AUTH_METHOD IN UR SETTINGS FILE)
 
 ## INITIALIZATION
+# UPDATED IN A LATEST VERSION!!!
 
 1. With this tool you can init your github repo with one line. Just go into github page and click at "new repo". Then give it a name, description and visibility flag.
    Now you can just do:
@@ -27,19 +26,24 @@ this command switches git auth method from HTTPS->SSH and reverse
 ```bash
 vvcommit init github-login repo-name
 ```
-
-in your terminal
-for example I want to create a repo "shop"
-so I do for example NEXT JS project and now time to create a repo for it.
+and here github login is OPTIONAL if u have settings in ur setting.vvcommit file
+so u can use just
 
 ```bash
-vvcommit init Vadim-Seleznov shop
+vvcommit init github-login repo-name
+```
+and it will automatically choose a auth-method and paste ur github-login in
+
+. Of course you can also push stuff into existing repo and here login is also OPTIONAL!:
+
+```bash
+vvcommit push-ex Vadym-Seleznov shop
 ```
 
-2. Of course you can also push stuff into existing repo:
+or
 
 ```bash
-vvcommit push-ex Vadim-Seleznov shop
+vvcommit push-ex shop
 ```
 
 ## COMMIT

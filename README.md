@@ -21,7 +21,7 @@ Designed for **fast local development** without memorizing long Git commands.
 ## Installation
 Clone the repository:
 ```bash
-git clone https://github.com/Vadim-Seleznov/vvcommit.git
+git clone https://github.com/vadym-seleznov-off/vvcommit.git
 ```
 
 # CURRENT
@@ -31,7 +31,9 @@ Simple console tool written fully in python. That's kind of thing that makes dai
 
 ## TODO
 1. Functionality to work with branches - BASIC IMPLEMENTATION
-2. Functionality to solve some common git problems - NOT IMPLEMENTED
+2. Functionality to solve some common git problems like rebases - NOT IMPLEMENTED
 
+## REMARK
+I do not recommend you to use this tool for doing stuff on branches (yet) because implementation is really basic and poor 
 ## LICENSE
 MIT

@@ -15,7 +15,6 @@ Designed for **fast local development** without memorizing long Git commands.
 - Self-update from GitHub
 - Ignore / restore script from repository
 - Zero dependencies (Python stdlib only)
-
 ---
 
 ## Installation

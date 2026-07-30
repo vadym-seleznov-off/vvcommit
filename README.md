@@ -31,8 +31,8 @@ so only u are responsible of using it. Please remember this.
 ## TODO
 1. Functionality to work with branches - BASIC IMPLEMENTATION
 2. Functionality to solve some common git problems like rebases - NOT IMPLEMENTED
-
+3. Better documentation
 ## REMARK
-I do not recommend you to use this tool for doing stuff on branches (yet) because implementation is really basic and poor 
+I do not recommend you to use this tool for doing stuff on branches (yet) because implementation is really basic and poor
 ## LICENSE
 MIT

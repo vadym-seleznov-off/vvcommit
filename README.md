@@ -28,6 +28,10 @@ VERSION OF PROGRAM IS 1.0 and the latest and most stable version is on a main br
 but still this tool is written only by me and it was not tested on any projects apart of my own ones 
 so only u are responsible of using it. Please remember this.
 
+# TASK TRACKER
+This project is using Task Tracker to manage the tasks which needs to be done
+heres the link to this **awesome** Mr.Zozin project: [tatr](https://github.com/tsoding/tatr) 
+
 ## TODO
 1. Functionality to work with branches - BASIC IMPLEMENTATION
 2. Functionality to solve some common git problems like rebases - NOT IMPLEMENTED

@@ -1,4 +1,3 @@
-```markdown
 # COMMANDS
 
 This document describes the available commands in `vvcommit`.
@@ -11,8 +10,8 @@ Displays all available commands and requests.
 
 ```bash
 vvcommit help
-
 ```
+
 
 ---
 
@@ -213,9 +212,4 @@ Update without creating a backup file:
 
 ```bash
 vvcommit update --no-backup
-
-```
-
-```
-
 ```

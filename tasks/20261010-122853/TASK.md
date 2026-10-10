@@ -1,6 +1,6 @@
 # Update and make documentation more readable
 
-- STATUS: OPEN
+- STATUS: CLOSED
 - PRIORITY: 110
 - TAGS: DOCS
 

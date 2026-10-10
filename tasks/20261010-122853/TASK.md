@@ -1,7 +1,8 @@
 # Update and make documentation more readable
 
 - STATUS: OPEN
-- PRIORITY: 100
-- TAGS:
+- PRIORITY: 110
+- TAGS: DOCS
 
-No description.
+Now some parts and commands are not even in documentation
+and over-all look of project documentation is horrible

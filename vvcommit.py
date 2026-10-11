@@ -56,8 +56,6 @@ def update(flag: str) -> None:
             print(f"{GREEN}Restored backup version.{RESET}")
         sys.exit(1)
 
-    sys.exit(0)
-
 # HELP FUNCTION TO PRINT TUTORIAL FOR REQUESTS IN TERMINAL
 def help() -> None:
     print(f"{GREY}--------------------VV HELP----------{RESET}")
@@ -77,7 +75,6 @@ def help() -> None:
     print(f"{GREEN}update - for getting newest version of tool from github! (--no-backup for not creating .bak file){RESET}")
     print(f"{GREEN}If you use branch request you should give extra argument with branch name{RESET}")
     print(f"{GREEN}EXAMPLE:{RESET} python ./vvcommit.py branch \"main\" \"small fix\"")
-    sys.exit(0)
 
 # THIS FUNCTION IS FOR PRINTING USAGE OF ANY REQUEST
 def usage(message: str) -> None:
@@ -100,7 +97,6 @@ def commit_curr(commit_message: str) -> None:
     print(f'{GREEN}Successful commit{RESET}: {commit_message}')
 
     set_settings("vadym-seleznov-off", "s")
-    sys.exit(0)
 
 # ADD + COMMIT + PUSH STUFF INTO SPECIFIC BRANCH
 def commit_branch(branch: str, commit_message) -> None:
@@ -120,8 +116,6 @@ def commit_branch(branch: str, commit_message) -> None:
 
     set_settings("vadym-seleznov-off", "s")
 
-    sys.exit(0)
-
 # ADD + COMMIT INTO CURRENT BRANCH WITHOUT PUSH
 def commit(commit_message: str) -> None:
     if _get_repo_name() == "vvcommit":
@@ -137,16 +131,12 @@ def commit(commit_message: str) -> None:
     print(f'{GREEN}Successful commit: {commit_message}{RESET}')
     set_settings("vadym-seleznov-off", "s")
 
-    sys.exit(0)
-
 # PULL STUFF FROM CURRENT OR SPECIFIC BRANCH
 def pull(branch: str = "none") -> None:
     if branch == "none":
         subprocess.run(["git", "pull"])
     else:
         subprocess.run(["git", "pull", "origin", branch])
-
-    sys.exit(0)
 
 # INIT GIT REPO ABSOLUTELY FROM SCRATCH
 # to use it just go to github website create new repo
@@ -165,8 +155,6 @@ def init(login: str, repo: str) -> None:
         subprocess.run(["git", "remote", "add", "origin", f'git@github.com:{login}/{repo}.git'])
     subprocess.run(["git", "push", "-u", "origin", "main"])
 
-    sys.exit(0)
-
 # PUSH STUFF INTO EXISTING GITHUB REPO (also using username and repo-name)
 def push_ex(login: str, repo: str) -> None:
     if AUTH_METHOD == AuthMethodType.HTTPS:
@@ -175,8 +163,6 @@ def push_ex(login: str, repo: str) -> None:
         subprocess.run(["git", "remote", "add", "origin", f'git@github.com:{login}/{repo}.git'])
     subprocess.run(["git", "branch", "-M", "main"])
     subprocess.run(["git", "push", "-u", "origin", "main"])
-
-    sys.exit(0)
 
 # IGNORE SOME FILES/DIRS 
 def ignore(paths: str) -> None:
@@ -202,8 +188,6 @@ def ignore(paths: str) -> None:
         subprocess.run(["git", "add", "."])
         subprocess.run(["git", "commit", "-m", f"Ignored: {', '.join(elements)}"])
         subprocess.run(["git", "push"])
-        
-        sys.exit(0)
     except Exception as e:
         print(f"{RED}ERROR:{RESET} {e}")
         sys.exit(1)
@@ -263,7 +247,6 @@ def branch_create(name: str, branch_type: str, user_option: str = "") -> None:
     subprocess.run(["git", "switch", "-c", full_name])
 
     print(f'{GREEN}SUCCESSFULLY CREATED AND SWITCHED INTO: {full_name}{RESET}')
-    sys.exit(0)
 
 # FUNCTION TO MERGE ALL STUFF FROM SPECIFIC BRANCH INTO MAIN AND (OPTIONAL) DELETE THIS BRANCH
 def branch_end(name: str, delete: bool = False, remote: bool = False)-> None:
@@ -296,8 +279,6 @@ def branch_end(name: str, delete: bool = False, remote: bool = False)-> None:
             subprocess.run(["git", "push", "origin", "--delete", target_branch])
 
     subprocess.run(["git", "push"])
-
-    sys.exit(0)
 
 # find github login + repo name from: git remote -v
 # Your_Name/awesome_repo.git
@@ -366,8 +347,6 @@ def switch_methods() -> None:
     else:
         print(f'{RED}ERROR: Unrecognized method for: {url}{RESET}')
 
-    sys.exit(0)
-
 # update user settings in file settings.vvcommit
 def set_settings(login, method):
     m = ""
@@ -384,7 +363,6 @@ def set_settings(login, method):
     with open(path, "w") as f:
         f.write(f"login: {login}\nmethod: {m}\n# THIS FILE IS GENERETED AUTOMATICALLY DO NOT CHANGE IT URSELF!\n#COMMAND TO CHANGE SETTINGS PROPERLY: vvcommit settings <login> <s/h> (stands for SSH or HTTPS)\n#TO RESTORE SETTINGS TO AN EMPTY STATE USE: vvcommit settings-remove")
     print(f'{GREEN}INFO: Successfully updated settins with name: {login}, and method {method}{RESET}')
-    sys.exit(0)
 
 # restore settings to an empty state
 def settings_remove():

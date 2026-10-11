@@ -483,6 +483,16 @@ def handle_settings():
 
     set_settings(sys.argv[2], sys.argv[3])
 
+
+# UTILITY FUNCTION TO GET CURRENT GITHUB REPOSITORY NAME
+def _get_repo_name() -> str:
+    repo_name = subprocess.check_output(
+        ["git", "rev-parse", "--show-toplevel"],
+        text=True
+        ).strip().split("/")[-1]
+
+    return repo_name
+
 # REQUESTS MAP
 REQUESTS = {
     "switch":        switch_methods,

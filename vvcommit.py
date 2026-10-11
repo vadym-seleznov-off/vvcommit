@@ -86,6 +86,9 @@ def usage(message: str) -> None:
 
 # ADD AND COMMIT + PUSH STUFF INTO CURRENT BRANCH WITH SIMPLE COMMAND
 def commit_curr(commit_message: str) -> None:
+    if _get_repo_name() == "vvcommit":
+        settings_remove()
+
     subprocess.run(["git", "add", "."])
 
     result = subprocess.run(["git", "commit", "-m", commit_message])
@@ -96,10 +99,14 @@ def commit_curr(commit_message: str) -> None:
 
     print(f'{GREEN}Successful commit{RESET}: {commit_message}')
 
+    set_settings("vadym-seleznov-off", "s")
     sys.exit(0)
 
 # ADD + COMMIT + PUSH STUFF INTO SPECIFIC BRANCH
 def commit_branch(branch: str, commit_message) -> None:
+    if _get_repo_name() == "vvcommit":
+        settings_remove()
+
     subprocess.run(["git", "add", "."])
 
     result = subprocess.run(["git", "commit", "-m", commit_message])
@@ -111,10 +118,15 @@ def commit_branch(branch: str, commit_message) -> None:
 
     print(f'{GREEN}Successful commit: {commit_message} into branch: {branch}{RESET}')
 
+    set_settings("vadym-seleznov-off", "s")
+
     sys.exit(0)
 
 # ADD + COMMIT INTO CURRENT BRANCH WITHOUT PUSH
 def commit(commit_message: str) -> None:
+    if _get_repo_name() == "vvcommit":
+        settings_remove()
+    
     subprocess.run(["git", "add", "."])
 
     result = subprocess.run(["git", "commit", "-m", commit_message])
@@ -123,6 +135,7 @@ def commit(commit_message: str) -> None:
         sys.exit(1)
 
     print(f'{GREEN}Successful commit: {commit_message}{RESET}')
+    set_settings("vadym-seleznov-off", "s")
 
     sys.exit(0)
 
@@ -380,7 +393,6 @@ def settings_remove():
     with open(path, "w") as f:
         f.write(f"login: \nmethod: \n# THIS FILE IS GENERETED AUTOMATICALLY DO NOT CHANGE IT URSELF!\n#COMMAND TO CHANGE SETTINGS PROPERLY: vvcommit settings <login> <s/h> (stands for SSH or HTTPS)\n#TO RESTORE SETTINGS TO AN EMPTY STATE USE: vvcommit settings-remove")
         print(f"{GREEN}SETTINGS WERE SUCCESSFULY RESTORED!{RESET}")
-        sys.exit(0)
 
 # ---- HANDLERS -----
 def handle_com():

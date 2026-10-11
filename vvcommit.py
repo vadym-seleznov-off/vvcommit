@@ -83,7 +83,9 @@ def usage(message: str) -> None:
 
 # ADD AND COMMIT + PUSH STUFF INTO CURRENT BRANCH WITH SIMPLE COMMAND
 def commit_curr(commit_message: str) -> None:
-    if _get_repo_name() == "vvcommit":
+    repo_name = _get_repo_name()
+
+    if repo_name == "vvcommit":
         settings_remove()
 
     subprocess.run(["git", "add", "."])
@@ -476,12 +478,17 @@ def handle_settings():
 
 # UTILITY FUNCTION TO GET CURRENT GITHUB REPOSITORY NAME
 def _get_repo_name() -> str:
-    repo_name = subprocess.check_output(
-        ["git", "rev-parse", "--show-toplevel"],
-        text=True
-        ).strip().split("/")[-1]
+    try:
+        repo_root = subprocess.check_output(
+            ["git", "rev-parse", "--show-toplevel"],
+            text=True,
+            stderr=subprocess.DEVNULL
+        ).strip()
 
-    return repo_name
+        return repo_root.replace("\\", "/").rstrip("/").split("/")[-1]
+
+    except subprocess.CalledProcessError:
+        return None
 
 # REQUESTS MAP
 REQUESTS = {

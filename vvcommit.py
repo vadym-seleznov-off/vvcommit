@@ -10,7 +10,7 @@ from auth import AuthMethodType
 
 from settings import Settings
 
-# CONSTANTS WITH CONSOLE COLORS
+# CONSTANTS FOR CONSOLE COLORS
 RED = "\033[31m"
 GREEN = "\033[32m"
 GREY = "\033[90m"

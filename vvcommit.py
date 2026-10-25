@@ -5,8 +5,10 @@ import sys
 import os
 import shutil
 import urllib.request
-from enum import Enum
 from pathlib import Path
+from auth import AuthMethodType
+
+from settings import Settings
 
 # CONSTANTS WITH CONSOLE COLORS
 RED = "\033[31m"
@@ -22,9 +24,7 @@ BRANCH_TYPES = {
         "b": "bugfix",
         }
 
-class AuthMethodType(Enum):
-    HTTPS = 1
-    SSH = 2
+cfg = Settings()
 
 # ----- IMPLEMENTATIONS ------
 # UPDATE FUNCTION
@@ -86,7 +86,7 @@ def commit_curr(commit_message: str) -> None:
     repo_name = _get_repo_name()
 
     if repo_name == "vvcommit":
-        settings_remove()
+        cfg.reset()
 
     subprocess.run(["git", "add", "."])
 
@@ -99,13 +99,13 @@ def commit_curr(commit_message: str) -> None:
     print(f'{GREEN}Successful commit{RESET}: {commit_message}')
 
     if repo_name == "vvcommit":
-        set_settings("vadym-seleznov-off", "s")
+        cfg.update("vadym-seleznov-off", "s")
 
 # ADD + COMMIT + PUSH STUFF INTO SPECIFIC BRANCH
 def commit_branch(branch: str, commit_message) -> None:
     repo_name = _get_repo_name()
     if repo_name == "vvcommit":
-        settings_remove()
+        cfg.reset()
 
     subprocess.run(["git", "add", "."])
 
@@ -118,7 +118,7 @@ def commit_branch(branch: str, commit_message) -> None:
 
     print(f'{GREEN}Successful commit: {commit_message} into branch: {branch}{RESET}')
     if repo_name == "vvcommit":
-        set_settings("vadym-seleznov-off", "s")
+        cfg.update("vadym-seleznov-off", "s")
 
 # ADD + COMMIT INTO CURRENT BRANCH WITHOUT PUSH
 def commit(commit_message: str) -> None:
@@ -156,7 +156,7 @@ def init(login: str, repo: str) -> None:
         print(f"{RED}Commit failed!{RESET}")
         sys.exit(1)
     subprocess.run(["git", "branch", "-M", "main"])
-    if AUTH_METHOD == AuthMethodType.HTTPS: 
+    if cfg.method == AuthMethodType.HTTPS: 
         subprocess.run(["git", "remote", "add", "origin", f'https://github.com/{login}/{repo}.git'])
     else:
         subprocess.run(["git", "remote", "add", "origin", f'git@github.com:{login}/{repo}.git'])
@@ -164,7 +164,7 @@ def init(login: str, repo: str) -> None:
 
 # PUSH STUFF INTO EXISTING GITHUB REPO (also using username and repo-name)
 def push_ex(login: str, repo: str) -> None:
-    if AUTH_METHOD == AuthMethodType.HTTPS:
+    if cfg.method == AuthMethodType.HTTPS:
         subprocess.run(["git", "remote", "add", "origin", f'https://github.com/{login}/{repo}.git'])
     else:
         subprocess.run(["git", "remote", "add", "origin", f'git@github.com:{login}/{repo}.git'])
@@ -342,42 +342,17 @@ def switch_methods() -> None:
     if url.startswith("https"):
         print(f'{GREEN}METHOD IS: HTTPS{RESET}')
         switch(url, method)
-        set_settings(USER_LOGIN, "h")
+        cfg.method = method
         print(f"{GREEN}SUCCESS! Now auth method is: SSH{RESET}")
         
     elif url.startswith("git@"):
         print(f'{GREEN}METHOD IS: SSH{RESET}')
         switch(url, method)
-        set_settings(USER_LOGIN, "s")
+        cfg.method = method
         print(f"{GREEN}SUCCESS! Now auth method is: HTTPS{RESET}")
         
     else:
         print(f'{RED}ERROR: Unrecognized method for: {url}{RESET}')
-
-# update user settings in file settings.vvcommit
-def set_settings(login, method):
-    m = ""
-    if method == "s":
-        m = "SSH"
-    elif method == "h":
-        m = "HTTPS"
-    else:
-        print(f'{RED}ERROR: Unrecognized method: {method}{RESET}')
-        sys.exit(1)
-
-    script_dir = Path(__file__).resolve().parent
-    path = os.path.join(script_dir, "settings.vvcommit")
-    with open(path, "w") as f:
-        f.write(f"login: {login}\nmethod: {m}\n# THIS FILE IS GENERETED AUTOMATICALLY DO NOT CHANGE IT URSELF!\n#COMMAND TO CHANGE SETTINGS PROPERLY: vvcommit settings <login> <s/h> (stands for SSH or HTTPS)\n#TO RESTORE SETTINGS TO AN EMPTY STATE USE: vvcommit settings-remove")
-    print(f'{GREEN}INFO: Successfully updated settins with name: {login}, and method {method}{RESET}')
-
-# restore settings to an empty state
-def settings_remove():
-    script_dir = Path(__file__).resolve().parent
-    path = os.path.join(script_dir, "settings.vvcommit")
-    with open(path, "w") as f:
-        f.write(f"login: \nmethod: \n# THIS FILE IS GENERETED AUTOMATICALLY DO NOT CHANGE IT URSELF!\n#COMMAND TO CHANGE SETTINGS PROPERLY: vvcommit settings <login> <s/h> (stands for SSH or HTTPS)\n#TO RESTORE SETTINGS TO AN EMPTY STATE USE: vvcommit settings-remove")
-        print(f"{GREEN}SETTINGS WERE SUCCESSFULY RESTORED!{RESET}")
 
 # ---- HANDLERS -----
 def handle_com():
@@ -405,8 +380,8 @@ def handle_init():
     if len(sys.argv) == 4:
         init(sys.argv[2], sys.argv[3])
     elif len(sys.argv) == 3:
-        print(USER_LOGIN)
-        if USER_LOGIN:
+        login = cfg.login
+        if login:
             init(USER_LOGIN, sys.argv[2])
         else:
             print(f"{RED}Could not load a github login from settings!{RESET}")
@@ -418,8 +393,8 @@ def handle_push_ex():
     if len(sys.argv) == 4:
         push_ex(sys.argv[2], sys.argv[3])
     elif len(sys.argv) == 3:
-        print(USER_LOGIN)
-        if USER_LOGIN:
+        login = cfg.login
+        if login:
             init(USER_LOGIN, sys.argv[2])
         else:
             print(f"{RED}Could not load a github login from settings!{RESET}")
@@ -478,7 +453,7 @@ def handle_settings():
     if len(sys.argv) != 4:
         usage("settings <name> <s/h> (ssh or https)")
 
-    set_settings(sys.argv[2], sys.argv[3])
+    cfg.update(sys.argv[2], sys.argv[3])
 
 
 # UTILITY FUNCTION TO GET CURRENT GITHUB REPOSITORY NAME
@@ -500,7 +475,7 @@ REQUESTS = {
     "switch":        switch_methods,
     "com":           handle_com,
     "settings":      handle_settings,
-    "settings-remove":settings_remove,
+    "settings-remove": cfg.reset(),
     "curr":          handle_curr,
     "cbranch":       handle_cbranch,
     "pull":          handle_pull,
@@ -533,21 +508,19 @@ def load_settings():
 
     return (login, method)
 
+
+
 # MAIN FUNCTION
 def main() -> None:
-    global AUTH_METHOD
-    global USER_LOGIN
+    global cfg
 
     print(f"{GREEN}Welcome from vvcommit!{RESET}")
     
     (login, method) = load_settings()
     if login and method:
-        AUTH_METHOD = method
-        USER_LOGIN = login
+        cfg.update(login, method)
         print(f"{GREEN}Successfully loaded settings from settings.vvcommit file!{RESET}")
     else:
-        AUTH_METHOD = AuthMethodType.HTTPS
-        USER_LOGIN = ""
         print(f"{GREY} Could not load name and prefered auth method from settings!{RESET}")
         print(f"{GREY} to save your info to settings use: vvcommit settings <name> <s/h> (SSH OR HTTPS){RESET}")
 

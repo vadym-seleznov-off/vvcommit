@@ -500,7 +500,7 @@ REQUESTS = {
     "switch":           switch_methods,
     "com":              handle_com,
     "settings":         handle_settings,
-    "settings-remove":  handle_settings_reset,
+    "settings-reset":   handle_settings_reset,
     "curr":             handle_curr,
     "cbranch":          handle_cbranch,
     "pull":             handle_pull,

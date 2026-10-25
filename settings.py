@@ -37,7 +37,7 @@ class Settings:
             f.write(
                 f"login: {login}\n"
                 f"method: {method.name}\n"
-                "# THIS FILE IS GENERATED AUTOMATICALLY (change it only with vvcommit settings <login> <method>)\n"
+                "# THIS FILE IS GENERATED AUTOMATICALLY (change it only with 'vvcommit settings <login> <method>' | 'vvcommit settings-reset')\n"
             )
 
         print(
@@ -53,7 +53,7 @@ class Settings:
         with open(path, "w") as f:
             f.write(
                     f"login: \nmethod: \n"
-                    "# THIS FILE IS GENERATED AUTOMATICALLY (change it only with vvcommit settings <login> <method>)\n"
+                    "# THIS FILE IS GENERATED AUTOMATICALLY (change it only with 'vvcommit settings <login> <method>' | 'vvcommit settings-reset')\n"
                     )
             print(f"{GREEN}SETTINGS WERE SUCCESSFULY RESTORED!{RESET}")
 

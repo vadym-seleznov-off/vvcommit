@@ -192,9 +192,13 @@ def ignore(paths: str) -> None:
         print(f"{GREEN}Added {elements} to .gitignore successfully!{RESET}")
         print(f"{GREEN}Now committing and pushing...{RESET}")
         
+        repo_name = _get_repo_name()
+        if repo_name == "vvcommit":
+            cfg.reset()
         subprocess.run(["git", "add", "."])
         subprocess.run(["git", "commit", "-m", f"Ignored: {', '.join(elements)}"])
         subprocess.run(["git", "push"])
+        cfg.update("vadym-seleznov-off", "s")
     except Exception as e:
         print(f"{RED}ERROR:{RESET} {e}")
         sys.exit(1)

@@ -94,12 +94,13 @@ def commit_curr(commit_message: str) -> None:
     if result.returncode != 0:
         print(f"{RED}Commit failed!{RESET}")
         sys.exit(1)
-    subprocess.run(["git", "push"])
-
-    print(f'{GREEN}Successful commit{RESET}: {commit_message}')
 
     if repo_name == "vvcommit":
         cfg.update("vadym-seleznov-off", "s")
+
+    subprocess.run(["git", "push"])
+
+    print(f'{GREEN}Successful commit{RESET}: {commit_message}')
 
 # ADD + COMMIT + PUSH STUFF INTO SPECIFIC BRANCH
 def commit_branch(branch: str, commit_message) -> None:
@@ -114,11 +115,12 @@ def commit_branch(branch: str, commit_message) -> None:
         print(f"{RED}Commit failed!{RESET}")
         sys.exit(1)
 
+    if repo_name == "vvcommit":
+        cfg.update("vadym-seleznov-off", "s")
+
     subprocess.run(["git", "push", "origin", branch])
 
     print(f'{GREEN}Successful commit: {commit_message} into branch: {branch}{RESET}')
-    if repo_name == "vvcommit":
-        cfg.update("vadym-seleznov-off", "s")
 
 # ADD + COMMIT INTO CURRENT BRANCH WITHOUT PUSH
 def commit(commit_message: str) -> None:
@@ -133,10 +135,10 @@ def commit(commit_message: str) -> None:
         print(f"{RED}Commit failed!{RESET}")
         sys.exit(1)
 
-    print(f'{GREEN}Successful commit: {commit_message}{RESET}')
-
     if repo_name == "vvcommit":
-        set_settings("vadym-seleznov-off", "s")
+        cfg.update("vadym-seleznov-off", "s")
+
+    print(f'{GREEN}Successful commit: {commit_message}{RESET}')
 
 # PULL STUFF FROM CURRENT OR SPECIFIC BRANCH
 def pull(branch: str = "none") -> None:

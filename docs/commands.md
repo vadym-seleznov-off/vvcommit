@@ -15,6 +15,19 @@ vvcommit help
 
 ---
 
+---
+
+## STATE
+
+State command show programs current settings state
+usage:
+
+```bash
+vvcommit state
+```
+
+---
+
 ## SETTINGS
 
 Configure your GitHub login and preferred authentication method. Once set, `vvcommit` remembers these values so you do not need to enter your username for every command.

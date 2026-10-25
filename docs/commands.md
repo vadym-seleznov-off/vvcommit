@@ -19,7 +19,7 @@ vvcommit help
 
 ## STATE
 
-State command show programs current settings state
+State command displays programs current state of settings,
 usage:
 
 ```bash

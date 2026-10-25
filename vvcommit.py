@@ -484,6 +484,7 @@ def _get_repo_name() -> str:
 
     except subprocess.CalledProcessError:
         return None
+
 def handle_settings_reset() -> None:
     cfg.reset()
 
@@ -530,7 +531,6 @@ def load_settings():
         method = AuthMethodType.SSH
     else:
         method = AuthMethodType.HTTPS
-
     return (login, method)
 
 # MAIN FUNCTION
@@ -542,7 +542,6 @@ def main() -> None:
     (login, method) = load_settings()
     if login and method:
         cfg.update(login, method)
-        print(f"{GREEN}Successfully loaded settings from settings.vvcommit file!{RESET}")
     else:
         print(f"{GREY} Could not load name and prefered auth method from settings!{RESET}")
         print(f"{GREY} to save your info to settings use: vvcommit settings <name> <s/h> (SSH OR HTTPS){RESET}")

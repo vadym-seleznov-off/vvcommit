@@ -72,6 +72,7 @@ def help() -> None:
     print(f"{GREEN}branch-end - merge stuff from specific branch and (optional) delete it{RESET}")
     print(f"{GREEN}init - to init github repo in current directory from scratch with github-login and repo-name{RESET}")
     print(f"{GREEN}push-ex - pushing stuff into existing github repo using github-login and repo-name{RESET}")
+    print(f"{GREEN}state - shows programs current settings state {RESET}")
     print(f"{GREEN}update - for getting newest version of tool from github! (--no-backup for not creating .bak file){RESET}")
     print(f"{GREEN}If you use branch request you should give extra argument with branch name{RESET}")
     print(f"{GREEN}EXAMPLE:{RESET} python ./vvcommit.py branch \"main\" \"small fix\"")
@@ -483,13 +484,22 @@ def _get_repo_name() -> str:
 
     except subprocess.CalledProcessError:
         return None
+def handle_settings_reset() -> None:
+    cfg.reset()
+
+# FUNCTION THAT SHOWS IN TERMINAL VVCOMMIT CURRENT SETTINGS STATE
+def state() -> None:
+    print(f"{GREEN}INFORMATION FROM SETTINGS:{RESET}")
+    login = cfg.login; method = cfg.method
+    print(f"{GREY}LOGIN:{RESET} {GREEN}{login}{RESET}")
+    print(f"{GREY}METHOD:{RESET} {GREEN}{method}{RESET}")
 
 # REQUESTS MAP
 REQUESTS = {
     "switch":        switch_methods,
     "com":           handle_com,
     "settings":      handle_settings,
-    "settings-remove": cfg.reset(),
+    "settings-remove": handle_settings_reset,
     "curr":          handle_curr,
     "cbranch":       handle_cbranch,
     "pull":          handle_pull,
@@ -500,6 +510,7 @@ REQUESTS = {
     "branch-create": handle_branch_create,
     "branch-end":    handle_branch_end,
     "help":          help,
+    "state":         state,
 }
 
 # function to load user settings from a settings.vvcommit file
@@ -521,8 +532,6 @@ def load_settings():
         method = AuthMethodType.HTTPS
 
     return (login, method)
-
-
 
 # MAIN FUNCTION
 def main() -> None:

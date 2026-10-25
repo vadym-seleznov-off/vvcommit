@@ -1,5 +1,3 @@
 login: 
 method: 
-# THIS FILE IS GENERETED AUTOMATICALLY DO NOT CHANGE IT URSELF!
-#COMMAND TO CHANGE SETTINGS PROPERLY: vvcommit settings <login> <s/h> (stands for SSH or HTTPS)
-#TO RESTORE SETTINGS TO AN EMPTY STATE USE: vvcommit settings-remove
+# THIS FILE IS GENERATED AUTOMATICALLY (change it only with vvcommit settings <login> <method>)

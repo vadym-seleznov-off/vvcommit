@@ -199,8 +199,9 @@ def ignore(paths: str) -> None:
             cfg.reset()
         subprocess.run(["git", "add", "."])
         subprocess.run(["git", "commit", "-m", f"Ignored: {', '.join(elements)}"])
+        if repo_name == "vvcommit":
+            cfg.update("vadym-seleznov-off", "s")
         subprocess.run(["git", "push"])
-        cfg.update("vadym-seleznov-off", "s")
     except Exception as e:
         print(f"{RED}ERROR:{RESET} {e}")
         sys.exit(1)
@@ -227,10 +228,17 @@ def restore_ignore(paths: str) -> None:
         for el in elements:
             subprocess.run(["git", "add", "-f", el])
         
+        repo_name = _get_repo_name()
+
+        if repo_name == "vvcommit":
+            cfg.reset()
+
         subprocess.run(["git", "add", ".gitignore"])
         print(f"{GREEN}Successfully added! Now committing and pushing...{RESET}")
-        
         subprocess.run(["git", "commit", "-m", f"Restored: {', '.join(elements)}"])
+
+        if repo_name == "vvcommit":
+            cfg.update("vadym-seleznov-off", "s")
         subprocess.run(["git", "push"])
         
         sys.exit(0)

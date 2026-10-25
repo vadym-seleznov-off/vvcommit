@@ -497,21 +497,21 @@ def state() -> None:
 
 # REQUESTS MAP
 REQUESTS = {
-    "switch":        switch_methods,
-    "com":           handle_com,
-    "settings":      handle_settings,
-    "settings-remove": handle_settings_reset,
-    "curr":          handle_curr,
-    "cbranch":       handle_cbranch,
-    "pull":          handle_pull,
-    "init":          handle_init,
-    "push-ex":       handle_push_ex,
-    "ignore":        handle_ignore,
-    "update":        handle_update,
-    "branch-create": handle_branch_create,
-    "branch-end":    handle_branch_end,
-    "help":          help,
-    "state":         state,
+    "switch":           switch_methods,
+    "com":              handle_com,
+    "settings":         handle_settings,
+    "settings-remove":  handle_settings_reset,
+    "curr":             handle_curr,
+    "cbranch":          handle_cbranch,
+    "pull":             handle_pull,
+    "init":             handle_init,
+    "push-ex":          handle_push_ex,
+    "ignore":           handle_ignore,
+    "update":           handle_update,
+    "branch-create":    handle_branch_create,
+    "branch-end":       handle_branch_end,
+    "help":             help,
+    "state":            state,
 }
 
 # function to load user settings from a settings.vvcommit file

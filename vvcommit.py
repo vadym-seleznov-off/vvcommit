@@ -544,7 +544,7 @@ def main() -> None:
         cfg.update(login, method)
     else:
         print(f"{GREY} Could not load name and prefered auth method from settings!{RESET}")
-        print(f"{GREY} to save your info to settings use: vvcommit settings <name> <s/h> (SSH OR HTTPS){RESET}")
+        print(f"{GREY} to save your info to settings use: vvcommit settings <github-login> <s/h> (SSH OR HTTPS){RESET}")
 
     if len(sys.argv) < 2:
         usage("request")

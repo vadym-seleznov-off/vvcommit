@@ -436,9 +436,10 @@ def handle_ignore():
 
 def handle_update():
     project_dir = Path(__file__).resolve().parent
-
+    docs_dir = project_dir / "docs"
     py_files = list(project_dir.rglob("*.py"))
-    md_files = list(project_dir.rglob("*.md"))
+    md_files = list(docs_dir.rglob("*.md"))
+    readme_file = project_dir / "README.md"
     
     if len(sys.argv) >= 3:
         if sys.argv[2] == "--no-backup":
@@ -449,12 +450,10 @@ def handle_update():
 
             print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} {GREY}FILES{RESET}")
             
-            # TODO: PLEASE FIX ME
             for mdfile in md_files:
-                if i > 0:
-                    update("no-backup", mdfile, "docs")
-
-                update("no-backup", mdfile)
+                update("no-backup", mdfile, "docs")
+            
+            update("no-backup", readme_file)
         else:
             print(f'There is no such flag: {sys.argv[2]}')
             help()
@@ -465,12 +464,10 @@ def handle_update():
         update("with-backup", pyfile)
 
     print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} {GREY}FILES{RESET}")
-    # TODO: THIS IS SO BAD
-    for i, mdfile in enumerate(md_files):
-        if i > 0:
-            update("with-backup", mdfile, "docs")
+    for mdfile in md_files:
+        update("with-backup", mdfile, "docs")
 
-        update("with-backup", mdfile)
+    update("with-backup", readme_file)
 
 def handle_branch_create():
     if len(sys.argv) < 4:

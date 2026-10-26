@@ -461,13 +461,13 @@ def handle_update():
     # Update and create backups for all files
     print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} {GREY}FILES{RESET}")
     for pyfile in py_files:
-        update("with-backup", pyfile)
+        update("backup", pyfile)
 
     print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} {GREY}FILES{RESET}")
     for mdfile in md_files:
-        update("with-backup", mdfile, "docs")
+        update("backup", mdfile, "docs")
 
-    update("with-backup", readme_file)
+    update("backup", readme_file)
 
 def handle_branch_create():
     if len(sys.argv) < 4:

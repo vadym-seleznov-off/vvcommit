@@ -432,9 +432,9 @@ def handle_ignore():
 def handle_update():
     project_dir = Path(__file__).resolve().parent
 
-    py_files = list(project_dir.rglob(".py"))
-    md_files = list(project_dir.rglob(".md"))
-
+    py_files = list(project_dir.rglob("*.py"))
+    md_files = list(project_dir.rglob("*.md"))
+    
     if len(sys.argv) >= 3:
         if sys.argv[2] == "--no-backup":
             # Update all files with no backup

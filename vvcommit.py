@@ -30,8 +30,8 @@ cfg = Settings()
 # UPDATE FUNCTION
 # With this function you can get newest version of script from github with only 1 command
 # also it has --no-backup flag if you dont want to save backup with older version
-def update(flag: str) -> None:
-    url = "https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/vvcommit.py"
+def update(flag: str, file: str) -> None:
+    url = f"https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/{file}.py"
     script_path = os.path.realpath(sys.argv[0])
     backup_path = script_path + ".bak"
 
@@ -43,12 +43,12 @@ def update(flag: str) -> None:
 
         if flag == "backup":
             shutil.copy2(script_path, backup_path)
-            print(f"{GREY}Backup created at: {backup_path}{RESET}")
+            print(f"{GREY}Backup file of {file} created at: {backup_path}{RESET}")
 
         with open(script_path, "w", encoding="utf-8") as f:
             f.write(data)
 
-        print(f"{GREEN}Update completed successfully!{RESET}")
+        print(f"{GREEN}Update of {file} completed successfully!{RESET}")
     except Exception as e:
         print(f"{RED}ERROR Update failed {RESET}: {e}")
         if os.path.exists(backup_path):
@@ -429,14 +429,22 @@ def handle_ignore():
         print(f'Wrong command: {sys.argv}')
         help()
 
+# looks like trash
 def handle_update():
     if len(sys.argv) >= 3:
         if sys.argv[2] == "--no-backup":
-            update("no-backup")
+            # Update all files with no backup
+            update("no-backup", "vvcommit")
+            update("no-backup", "auth")
+            update("no-backup", "settings")
         else:
             print(f'There is no such flag: {sys.argv[2]}')
             help()
-    update("with-backup")
+    
+    # Update and create backups for all files
+    update("with-backup", "vvcommit")
+    update("with-backup", "auth")
+    update("with-backup", "settings")
 
 def handle_branch_create():
     if len(sys.argv) < 4:

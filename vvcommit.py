@@ -30,9 +30,13 @@ cfg = Settings()
 # UPDATE FUNCTION
 # With this function you can get newest version of script from github with only 1 command
 # also it has --no-backup flag if you dont want to save backup with older version
-def update(flag: str, file: str) -> None:
+def update(flag: str, file: str, directory="") -> None:
     source = Path(file).name
-    url = f"https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/{source}"
+    url = ""
+    if directory:
+        url = f"https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/{directory}/{source}"
+    else:
+        url = f"https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/{source}"
     script_path = file
     backup_path = str(script_path) + ".bak"
 
@@ -444,7 +448,12 @@ def handle_update():
                 update("no-backup", pyfile)
 
             print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} {GREY}FILES{RESET}")
+            
+            # TODO: PLEASE FIX ME
             for mdfile in md_files:
+                if i > 0:
+                    update("no-backup", mdfile, "docs")
+
                 update("no-backup", mdfile)
         else:
             print(f'There is no such flag: {sys.argv[2]}')
@@ -456,7 +465,11 @@ def handle_update():
         update("with-backup", pyfile)
 
     print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} {GREY}FILES{RESET}")
-    for mdfile in md_files:
+    # TODO: THIS IS SO BAD
+    for i, mdfile in enumerate(md_files):
+        if i > 0:
+            update("with-backup", mdfile, "docs")
+
         update("with-backup", mdfile)
 
 def handle_branch_create():

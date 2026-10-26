@@ -32,7 +32,7 @@ cfg = Settings()
 # also it has --no-backup flag if you dont want to save backup with older version
 def update(flag: str, file: str) -> None:
     url = f"https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/{file}.py"
-    script_path = str(Path(__file__).resolve().parent) + f"/{file}.py"
+    script_path = str(Path(__file__).resolve().parent) + f"/{file}"
     backup_path = script_path + ".bak"
 
     print("Starting update...")
@@ -438,11 +438,11 @@ def handle_update():
     if len(sys.argv) >= 3:
         if sys.argv[2] == "--no-backup":
             # Update all files with no backup
-            print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} FILES{RESET}")
+            print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} {GREY}FILES{RESET}")
             for pyfile in py_files:
                 update("no-backup", pyfile)
 
-            print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} FILES{RESET}")
+            print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} {GREY}FILES{RESET}")
             for mdfile in md_files:
                 update("no-backup", mdfile)
         else:
@@ -450,11 +450,11 @@ def handle_update():
             help()
     
     # Update and create backups for all files
-    print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} FILES{RESET}")
+    print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} {GREY}FILES{RESET}")
     for pyfile in py_files:
         update("with-backup", pyfile)
 
-    print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} FILES{RESET}")
+    print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} {GREY}FILES{RESET}")
     for mdfile in md_files:
         update("with-backup", mdfile)
 

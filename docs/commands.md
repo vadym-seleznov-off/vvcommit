@@ -212,7 +212,7 @@ vvcommit ignore "firstfile.py secondfile.c dir/" --restore
 
 ## UPDATE
 
-Update `vvcommit` to the latest version directly from GitHub.
+Update `vvcommit` (all .py files and docs) to the latest version directly from GitHub.
 
 Default update (creates a safety backup):
 

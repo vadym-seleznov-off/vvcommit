@@ -429,22 +429,34 @@ def handle_ignore():
         print(f'Wrong command: {sys.argv}')
         help()
 
-# looks like trash
 def handle_update():
+    project_dir = Path(__file__).resolve().parent
+
+    py_files = list(project_dir.rglob(".py"))
+    md_files = list(project_dir.rglob(".md"))
+
     if len(sys.argv) >= 3:
         if sys.argv[2] == "--no-backup":
             # Update all files with no backup
-            update("no-backup", "vvcommit")
-            update("no-backup", "auth")
-            update("no-backup", "settings")
+            print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} FILES{RESET}")
+            for pyfile in py_files:
+                update("no-backup", pfile)
+
+            print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} FILES{RESET}")
+            for mdfile in md_files:
+                update("no-backup", mdfile)
         else:
             print(f'There is no such flag: {sys.argv[2]}')
             help()
     
     # Update and create backups for all files
-    update("with-backup", "vvcommit")
-    update("with-backup", "auth")
-    update("with-backup", "settings")
+    print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} FILES{RESET}")
+    for pyfile in py_files:
+        update("with-backup", pfile)
+
+    print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} FILES{RESET}")
+    for mdfile in md_files:
+        update("with-backup", mdfile)
 
 def handle_branch_create():
     if len(sys.argv) < 4:

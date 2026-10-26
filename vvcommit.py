@@ -31,9 +31,9 @@ cfg = Settings()
 # With this function you can get newest version of script from github with only 1 command
 # also it has --no-backup flag if you dont want to save backup with older version
 def update(flag: str, file: str) -> None:
-    url = f"https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/{file}.py"
-    script_path = str(Path(__file__).resolve().parent) + f"/{file}"
-    backup_path = script_path + ".bak"
+    url = f"https://raw.githubusercontent.com/vadym-seleznov-off/vvcommit/main/{file}"
+    script_path = Path(file).name
+    backup_path = str(script_path) + ".bak"
 
     print("Starting update...")
 

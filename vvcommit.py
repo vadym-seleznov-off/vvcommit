@@ -440,7 +440,7 @@ def handle_update():
             # Update all files with no backup
             print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} FILES{RESET}")
             for pyfile in py_files:
-                update("no-backup", pfile)
+                update("no-backup", pyfile)
 
             print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} FILES{RESET}")
             for mdfile in md_files:
@@ -452,7 +452,7 @@ def handle_update():
     # Update and create backups for all files
     print(f"{GREY}UPDATING ALL {GREEN}PYTHON{RESET} FILES{RESET}")
     for pyfile in py_files:
-        update("with-backup", pfile)
+        update("with-backup", pyfile)
 
     print(f"{GREY}UPDATING ALL {GREEN}MARKDOWN{RESET} FILES{RESET}")
     for mdfile in md_files:

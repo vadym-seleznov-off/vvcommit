@@ -402,7 +402,7 @@ def handle_init():
     elif len(sys.argv) == 3:
         login = cfg.login
         if login:
-            init(USER_LOGIN, sys.argv[2])
+            init(login, sys.argv[2])
         else:
             print(f"{RED}Could not load a github login from settings!{RESET}")
             sys.exit(1)

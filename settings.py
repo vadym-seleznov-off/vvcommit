@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 from auth import AuthMethodType
 from pathlib import Path
